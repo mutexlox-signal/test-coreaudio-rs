@@ -24,8 +24,6 @@ fn main() {
         .layout(cubeb::ChannelLayout::MONO)
         .take();
 
-    println!("backend {}", ctx.backend_id());
-
     let mut builder = cubeb::StreamBuilder::<Frame>::new();
     builder
         .name("Cubeb recording (mono)")
