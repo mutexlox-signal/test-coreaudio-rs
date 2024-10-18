@@ -66,5 +66,4 @@ name = "test-coreaudio-rs"
 version = "0.1.0"
 dependencies = [
  "cubeb",
- "cubeb-core",
 ]

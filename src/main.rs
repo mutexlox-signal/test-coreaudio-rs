@@ -1,6 +1,5 @@
 //! libcubeb api/function test. Records from the microphone and plays to the speaker.
 extern crate cubeb;
-extern crate cubeb_core;
 
 use cubeb::MonoFrame;
 use std::thread;
