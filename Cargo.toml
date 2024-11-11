@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-cubeb = {  version = "0.14.0", path = "../cubeb-rs/cubeb-api" }
+cubeb = {  version = "0.17.0" }
+cubeb-core = {  version = "0.17.0" }
 

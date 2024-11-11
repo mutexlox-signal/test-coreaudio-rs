@@ -28,22 +28,29 @@ dependencies = [
 
 [[package]]
 name = "cubeb"
-version = "0.14.0"
+version = "0.17.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4a342fa08004b09f8301c328cd714004c33fe718d311aaf215c372ff52f5ad37"
 dependencies = [
  "cubeb-core",
 ]
 
 [[package]]
 name = "cubeb-core"
-version = "0.14.0"
+version = "0.17.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23b5dfbff806ffe83a09663e65dc9d00edae4da7977ced9dc6b44c2b036e33d3"
 dependencies = [
  "bitflags",
+ "cc",
  "cubeb-sys",
 ]
 
 [[package]]
 name = "cubeb-sys"
-version = "0.14.0"
+version = "0.17.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d3a1b58889aa85e1df0292cf8eb579b3f669893f4d18967e8f74be3ec4e597da"
 dependencies = [
  "cmake",
  "pkg-config",
@@ -66,4 +73,5 @@ name = "test-coreaudio-rs"
 version = "0.1.0"
 dependencies = [
  "cubeb",
+ "cubeb-core",
 ]
