@@ -30,27 +30,20 @@ fn main() {
         .rate(SAMPLE_FREQUENCY)
         .channels(1)
         .layout(cubeb::ChannelLayout::MONO)
-        .prefs(cubeb_core::StreamPrefs::VOICE)
         .take();
-
-    let device_id = ctx
-        .enumerate_devices(cubeb::DeviceType::OUTPUT)
-        .unwrap()
-        .iter()
-        .find(|d| d.friendly_name() == Some("BlackHole 2ch"))
-        .unwrap()
-        .devid();
 
     let mut builder = cubeb::StreamBuilder::<Frame>::new();
     builder
         .name("Cubeb recording (mono)")
-        .output(device_id, &params)
+        .default_output(&params)
         .default_input(&params)
         .latency(0x1000)
         .data_callback(move |input, output| {
             for (i, x) in input.iter().enumerate() {
                 output[i] = *x
             }
+            // Add latency to make it easier to hear the output
+            thread::sleep(Duration::from_micros(500));
             output.len() as isize
         })
         .state_callback(|state| {
@@ -58,14 +51,6 @@ fn main() {
         });
 
     let stream = builder.init(&ctx).expect("Failed to create cubeb stream");
-
-    stream
-        .set_input_processing_params(
-            cubeb_core::InputProcessingParams::ECHO_CANCELLATION
-                | cubeb_core::InputProcessingParams::NOISE_SUPPRESSION
-                | cubeb_core::InputProcessingParams::AUTOMATIC_GAIN_CONTROL,
-        )
-        .expect("failed to set params");
 
     stream.start().unwrap();
     thread::sleep(Duration::from_millis(30000));

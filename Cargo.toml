@@ -6,4 +6,3 @@ edition = "2021"
 [dependencies]
 cubeb = {  version = "0.26.0"}
 cubeb-core = {  version = "0.26.0"}
-
