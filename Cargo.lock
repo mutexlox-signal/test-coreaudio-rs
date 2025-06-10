@@ -28,18 +28,18 @@ dependencies = [
 
 [[package]]
 name = "cubeb"
-version = "0.26.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "797a038aa69ca5cd56baebcb3c2c825e2350b33927e78d4336dd9421dfd3f247"
+checksum = "161012aab8ac9fbe7e367cce9004d2936b860b960ed308e21ad8f65c87f55938"
 dependencies = [
  "cubeb-core",
 ]
 
 [[package]]
 name = "cubeb-core"
-version = "0.26.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38765a73d7f0ff0f2622184993b3b5805becc657a2354bd6cf8d206d8792dd47"
+checksum = "c16577b3e7e18e584867a5f364ff4c0c07c7b1850c3b410369cc5cccde878ecb"
 dependencies = [
  "bitflags",
  "cc",
@@ -48,9 +48,9 @@ dependencies = [
 
 [[package]]
 name = "cubeb-sys"
-version = "0.26.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85a9f831d9f304c1f4b38258cbb29fb268ef4a8f777159c75b4bc5335ad91d18"
+checksum = "9dc6dce42299ac8a1943d947742329fe13ed0e59b466abf6babed04f1725b732"
 dependencies = [
  "cmake",
  "pkg-config",

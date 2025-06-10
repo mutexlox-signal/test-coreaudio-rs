@@ -8,6 +8,11 @@ use std::time::Duration;
 
 use cubeb::Context;
 
+const SAMPLE_FREQUENCY: u32 = 48_000;
+const STREAM_FORMAT: cubeb::SampleFormat = cubeb::SampleFormat::S16NE;
+
+type Frame = MonoFrame<i16>;
+
 fn main() {
     cubeb_core::set_logging(
         cubeb::LogLevel::Normal,
@@ -16,16 +21,23 @@ fn main() {
         }),
     )
     .expect("log failed");
-    let ctx = Context::init(Some(c"Cubeb recording example"), Some("audiounit"))
+    let ctx = Context::init(Some(c"Cubeb recording example"), Some(c"audiounit"))
         .expect("Failed to create cubeb context");
 
     println!("using backend {}", ctx.backend_id());
 
-    for info in ctx
+    let params = cubeb::StreamParamsBuilder::new()
+        .format(STREAM_FORMAT)
+        .rate(SAMPLE_FREQUENCY)
+        .channels(1)
+        .layout(cubeb::ChannelLayout::MONO)
+        .take();
+
+    let device_id = ctx
         .enumerate_devices(cubeb::DeviceType::INPUT)
         .unwrap()
         .iter()
-        .find(|d| d.friendly_name().unwrap().contains("Blackhole 16ch"))
+        .find(|d| d.friendly_name().unwrap().contains("BlackHole 16ch"))
         .unwrap()
         .devid();
 
