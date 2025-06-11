@@ -1,4 +1,8 @@
 //! libcubeb api/function test. Plays a tone to a blackhole 16ch device
+
+// based on
+// https://github.com/mozilla/cubeb-rs/blob/master/cubeb-api/examples/tone.rs
+// but with additional logging
 extern crate cubeb;
 
 use cubeb::{MonoFrame, Sample};
@@ -21,7 +25,7 @@ fn main() {
         }),
     )
     .expect("log failed");
-    let ctx = Context::init(Some(c"Cubeb recording example"), Some(c"audiounit"))
+    let ctx = Context::init(Some(c"Cubeb recording example"), None)
         .expect("Failed to create cubeb context");
 
     println!("using backend {}", ctx.backend_id());
@@ -33,19 +37,11 @@ fn main() {
         .layout(cubeb::ChannelLayout::MONO)
         .take();
 
-    let device_id = ctx
-        .enumerate_devices(cubeb::DeviceType::INPUT)
-        .unwrap()
-        .iter()
-        .find(|d| d.friendly_name().unwrap().contains("BlackHole 16ch"))
-        .unwrap()
-        .devid();
-
     let mut position = 0u32;
     let mut builder = cubeb::StreamBuilder::<Frame>::new();
     builder
         .name("Cubeb recording (mono)")
-        .output(device_id, &params)
+        .default_output(&params)
         .latency(0x1000)
         .data_callback(move |_, output| {
             // generate our test tone on the fly
@@ -54,7 +50,7 @@ fn main() {
                 let t1 = (2.0 * PI * 350.0 * position as f32 / SAMPLE_FREQUENCY as f32).sin();
                 let t2 = (2.0 * PI * 440.0 * position as f32 / SAMPLE_FREQUENCY as f32).sin();
 
-                f.m = i16::from_float(0.5 * (t1 + t2));
+                f.m = i16::from_float(0.25 * (t1 + t2));
 
                 position += 1;
             }
@@ -67,6 +63,6 @@ fn main() {
     let stream = builder.init(&ctx).expect("Failed to create cubeb stream");
 
     stream.start().unwrap();
-    thread::sleep(Duration::from_millis(30000));
+    thread::sleep(Duration::from_millis(5000));
     stream.stop().unwrap();
 }
